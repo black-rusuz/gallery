@@ -1,10 +1,10 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:pictures/widgets.dart';
 import 'constants.dart';
+import 'dto/photo.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() { runApp(const MyApp()); }
 
 
 class MyApp extends StatelessWidget {
@@ -31,43 +31,115 @@ class Home extends StatefulWidget {
 }
 
 
-class _HomeState extends State<Home> {
-  // TODO: Следить за нулём
-  int _selectedIndex = 0;
+class _HomeState extends State<Home> with TickerProviderStateMixin{
+  int _mainIndex = 0;
+  int _page = 1;
 
-  // TODO: Подумать над баром с кнопкой "назад"
-  static List<AppBar> get _appBars => <AppBar>[
+  final List<AppBar> _appBars = <AppBar>[
     Widgets.appBar(Constants.TITLE_NEW),
     Widgets.appBar(Constants.TITLE_POPULAR),
   ];
 
-
-  // TODO: Начать с этого и дальше по тудушкам
-  List<Widgets> images = <Widgets>[];
-  void getImagesList(){
-    for (int i = 0; i < 10; i++) {
-      print(i);
-    };
+  Future<void> _pullRefresh() async {
+    setState(() { _page = 1; });
   }
 
-  // TODO: Доработать, подключить к API
-  static final List<Widget> _homeFragments = <Widget>[
-    Widgets.mainGrid(),
-    Widgets.plug(),
-  ];
+  void _onImageTap(Photo photo) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Scaffold(
+        appBar: Widgets.backAppBar(),
+        body: Widgets.details(photo),
+      );
+    }));
+  }
 
-  void _onItemTapped(int index) { setState(() { _selectedIndex = index; }); }
+  void _onBottomItemTap(int index) {
+    setState(() {
+      _mainIndex = index;
+      _page++;
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    getImagesList();
-    return Scaffold(
-      // TODO: Заменить на белый
-      backgroundColor: Colors.white70,
+    List<Widget> _homeFragments = <Widget>[
+      CustomRefreshIndicator(
+        offsetToArmed: 28.0,
+        onRefresh: _pullRefresh,
+        builder: (BuildContext context, Widget child, IndicatorController controller) {
+          return AnimatedBuilder(
+            animation: controller,
+            builder: (BuildContext context, _) {
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  if (!controller.isIdle || controller.isHiding)
+                    Positioned(
+                      top: controller.value,
+                      child: Widgets.loading(this, true),
+                    ),
+                  Transform.translate(
+                    offset: Offset(0, 28.0 * controller.value),
+                    child: child,
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: FutureBuilder(
+          future: Widgets.grid(
+            Constants.API_REQUEST_NEW + _page.toString(),
+            _onImageTap),
+          initialData: Widgets.loading(this),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            return snapshot.data;
+          },
+        ),
+      ),
+      CustomRefreshIndicator(
+        offsetToArmed: 28.0,
+        onRefresh: _pullRefresh,
+        builder: (BuildContext context, Widget child, IndicatorController controller) {
+          return AnimatedBuilder(
+            animation: controller,
+            builder: (BuildContext context, _) {
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  if (!controller.isIdle || controller.isHiding)
+                    Positioned(
+                      top: controller.value,
+                      child: Widgets.loading(this, true),
+                    ),
+                  Transform.translate(
+                    offset: Offset(0, 28.0 * controller.value),
+                    child: child,
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: FutureBuilder(
+          future: Widgets.grid(
+            Constants.API_REQUEST_POPULAR + _page.toString(),
+            _onImageTap),
+          initialData: Widgets.loading(this),
+          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+            return snapshot.data;
+          },
+        ),
+      ),
+    ];
 
-      appBar: _appBars.elementAt(_selectedIndex),
-      body: _homeFragments.elementAt(_selectedIndex),
-      bottomNavigationBar: Widgets.navBar(_selectedIndex, _onItemTapped),
+    return Scaffold(
+      backgroundColor: Colors.white,
+
+      appBar: _appBars.elementAt(_mainIndex),
+      body: _homeFragments.elementAt(_mainIndex),
+      bottomNavigationBar: Widgets.navBar(_mainIndex, _onBottomItemTap),
     );
   }
 }

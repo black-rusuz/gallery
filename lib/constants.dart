@@ -17,17 +17,24 @@ class Constants {
         800 : Color(0xffa90056),
         900 : Color(0xff84004e),
   });
-  static const Color COLOR_TITLE = Color(0xFF2F1767);
-  static const Color COLOR_SUBTITLE = Color(0xFF8C8C8C);
-  static const Color COLOR_GRAY = Color(0xFFC8C8C8);
+  static const Color COLOR_TITLE = Color(0xff2f1767);
+  static const Color COLOR_SUBTITLE = Color(0xff8c8c8c);
+  static const Color COLOR_TEXT = Color(0xff4a4a4a);
+  static const Color COLOR_GRAY = Color(0xffc8c8c8);
 
   static const String TITLE_NEW = 'New';
   static const String TITLE_POPULAR = 'Popular';
 
-  static const String CONNECTION_ERROR_IMAGE_ASSET = 'assets/images/internet.svg';
+  static const String LOADING_IMAGE = 'assets/images/loading.svg';
+  static const String CONNECTION_ERROR_IMAGE = 'assets/images/internet.svg';
   static const String CONNECTION_ERROR_TITLE = 'Oh shucks!';
-  static const String CONNECTION_ERROR_MESSAGE = 'Slow or no internet connection.\nPlease check your internet settings';
+  static const String CONNECTION_ERROR_MESSAGE =
+      'Slow or no internet connection.\n'
+      'Please check your internet settings';
 
-  // TODO: Убрать после подключения API
-  static const String UNSPLASH_RANDOM = 'https://source.unsplash.com/random';
+  static const String API_IMAGE_URL = 'http://gallery.dev.webant.ru/media/';
+  static const String API_REQUEST_NEW =
+      'http://gallery.dev.webant.ru/api/photos?limit=10&new=true&page=';
+  static const String API_REQUEST_POPULAR =
+      'http://gallery.dev.webant.ru/api/photos?limit=10&popular=true&page=';
 }
