@@ -18,7 +18,7 @@ class Widgets {
       title: Text(
         title,
         style: const TextStyle(
-          color: Constants.COLOR_TITLE,
+          color: Constants.colorTitle,
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
         ),
@@ -26,11 +26,11 @@ class Widgets {
     );
   }
 
-  static AppBar backAppBar() {
+  static AppBar appBarBack() {
     return AppBar(
       backgroundColor: Colors.transparent,
       shadowColor: Colors.transparent,
-      leading: const BackButton(color: Constants.COLOR_TITLE),
+      leading: const BackButton(color: Constants.colorTitle),
     );
   }
     
@@ -39,23 +39,23 @@ class Widgets {
       backgroundColor: Colors.white,
       currentIndex: index,
       selectedFontSize: 12.0,
-      selectedItemColor: Constants.COLOR_ACCENT,
-      unselectedItemColor: Constants.COLOR_SUBTITLE,
+      selectedItemColor: Constants.colorAccent,
+      unselectedItemColor: Constants.colorSubtitle,
       onTap: onTap,
 
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          label: Constants.TITLE_NEW,
+          label: Constants.titleNew,
           icon: Padding(
             padding: EdgeInsets.only(bottom: 5.0),
-            child: Icon(NavIcons.NAV_NEW),
+            child: Icon(NavIcons.navNew),
           ),
         ),
         BottomNavigationBarItem(
-          label: Constants.TITLE_POPULAR,
+          label: Constants.titlePopular,
           icon: Padding(
             padding: EdgeInsets.only(bottom: 5.0),
-            child: Icon(NavIcons.NAV_POPULAR),
+            child: Icon(NavIcons.navPopular),
           ),
         ),
       ],
@@ -70,7 +70,7 @@ class Widgets {
           Padding(
             padding: const EdgeInsets.only(bottom: 30.0),
             child: SvgPicture.asset(
-              Constants.CONNECTION_ERROR_IMAGE,
+              Constants.connectionErrorImage,
               width: 160.0,
               height: 160.0,
             ),
@@ -78,20 +78,20 @@ class Widgets {
           const Padding(
             padding: EdgeInsets.only(bottom: 10.0),
             child: Text(
-              Constants.CONNECTION_ERROR_TITLE,
+              Constants.connectionErrorTitle,
               style: TextStyle(
-                color: Constants.COLOR_TITLE,
+                color: Constants.colorTitle,
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ),
           const Text(
-            Constants.CONNECTION_ERROR_MESSAGE,
+            Constants.connectionErrorMessage,
             textAlign: TextAlign.center,
 
             style: TextStyle(
-              color: Constants.COLOR_SUBTITLE,
+              color: Constants.colorSubtitle,
               fontSize: 12.0,
               height: 2.0,
             ),
@@ -126,8 +126,8 @@ class Widgets {
           curve: Curves.linear,
         ),
         child: SvgPicture.asset(
-          Constants.LOADING_IMAGE,
-          color: isColored ? Constants.COLOR_ACCENT : null,
+          Constants.loadingImage,
+          color: isColored ? Constants.colorAccent : null,
         ),
       ),
     );
@@ -167,7 +167,7 @@ class Widgets {
   }
 
   static InkWell gridImage(Photo photo, Function(Photo) onTap) {
-    String url = Constants.API_IMAGE_URL + photo.image!.name!;
+    String url = Constants.apiImageUrl + photo.image!.name!;
 
     return InkWell(
       onTap: () => onTap(photo),
@@ -180,7 +180,7 @@ class Widgets {
 
 
   static ListView details(Photo photo) {
-    String url = Constants.API_IMAGE_URL + photo.image!.name!;
+    String url = Constants.apiImageUrl + photo.image!.name!;
     String name = photo.name!;
     String description = photo.description!;
 
@@ -196,7 +196,7 @@ class Widgets {
             name,
             textAlign: TextAlign.start,
             style: const TextStyle(
-              color: Constants.COLOR_TITLE,
+              color: Constants.colorTitle,
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
@@ -207,7 +207,7 @@ class Widgets {
           child: Text(
             description,
             style: const TextStyle(
-              color: Constants.COLOR_TEXT,
+              color: Constants.colorText,
               fontSize: 12.0,
               height: 2.0,
             ),

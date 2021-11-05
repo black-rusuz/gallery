@@ -21,6 +21,6 @@ class NavIcons {
   static const _kFontFam = 'NavIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData NAV_NEW = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
-  static const IconData NAV_POPULAR = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData navNew = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData navPopular = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

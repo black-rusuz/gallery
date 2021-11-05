@@ -1,4 +1,3 @@
-import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:pictures/widgets.dart';
 import 'constants.dart';
@@ -13,9 +12,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: Constants.APP_NAME,
+      title: Constants.appName,
       theme: ThemeData(
-        primarySwatch: Constants.COLOR_ACCENT,
+        primarySwatch: Constants.colorAccent,
       ),
       home: const Home(),
     );
@@ -36,8 +35,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   int _page = 1;
 
   final List<AppBar> _appBars = <AppBar>[
-    Widgets.appBar(Constants.TITLE_NEW),
-    Widgets.appBar(Constants.TITLE_POPULAR),
+    Widgets.appBar(Constants.titleNew),
+    Widgets.appBar(Constants.titlePopular),
   ];
 
   Future<void> _pullRefresh() async {
@@ -47,7 +46,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   void _onImageTap(Photo photo) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return Scaffold(
-        appBar: Widgets.backAppBar(),
+        appBar: Widgets.appBarBack(),
         body: Widgets.details(photo),
       );
     }));
@@ -64,74 +63,26 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   @override
   Widget build(BuildContext context) {
     List<Widget> _homeFragments = <Widget>[
-      CustomRefreshIndicator(
-        offsetToArmed: 28.0,
-        onRefresh: _pullRefresh,
-        builder: (BuildContext context, Widget child, IndicatorController controller) {
-          return AnimatedBuilder(
-            animation: controller,
-            builder: (BuildContext context, _) {
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  if (!controller.isIdle || controller.isHiding)
-                    Positioned(
-                      top: controller.value,
-                      child: Widgets.loading(this, true),
-                    ),
-                  Transform.translate(
-                    offset: Offset(0, 28.0 * controller.value),
-                    child: child,
-                  ),
-                ],
-              );
-            },
-          );
-        },
+      RefreshIndicator(
         child: FutureBuilder(
           future: Widgets.grid(
-            Constants.API_REQUEST_NEW + _page.toString(),
-            _onImageTap),
+              Constants.apiRequestNew + _page.toString(), _onImageTap),
           initialData: Widgets.loading(this),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
             return snapshot.data;
-          },
+          }
         ),
-      ),
-      CustomRefreshIndicator(
-        offsetToArmed: 28.0,
-        onRefresh: _pullRefresh,
-        builder: (BuildContext context, Widget child, IndicatorController controller) {
-          return AnimatedBuilder(
-            animation: controller,
-            builder: (BuildContext context, _) {
-              return Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  if (!controller.isIdle || controller.isHiding)
-                    Positioned(
-                      top: controller.value,
-                      child: Widgets.loading(this, true),
-                    ),
-                  Transform.translate(
-                    offset: Offset(0, 28.0 * controller.value),
-                    child: child,
-                  ),
-                ],
-              );
-            },
-          );
-        },
+        onRefresh: _pullRefresh),
+      RefreshIndicator(
         child: FutureBuilder(
-          future: Widgets.grid(
-            Constants.API_REQUEST_POPULAR + _page.toString(),
-            _onImageTap),
-          initialData: Widgets.loading(this),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            return snapshot.data;
-          },
-        ),
+            future: Widgets.grid(
+                Constants.apiRequestNew + _page.toString(), _onImageTap),
+            initialData: Widgets.loading(this),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          return snapshot.data;
+        }
       ),
+      onRefresh: _pullRefresh),
     ];
 
     return Scaffold(
