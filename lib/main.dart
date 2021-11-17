@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:pictures/widgets.dart';
-import 'constants.dart';
-import 'dto/photo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-void main() { runApp(const MyApp()); }
+import 'widgets/photo_grid.dart';
+import 'widgets/widgets.dart';
+import 'constants.dart';
+import 'simple_bloc_observer.dart';
+
+void main() {
+  Bloc.observer = SimpleBlocObserver();       // TODO: Убрать
+  runApp(const MyApp());
+}
 
 
 class MyApp extends StatelessWidget {
@@ -30,59 +36,29 @@ class Home extends StatefulWidget {
 }
 
 
-class _HomeState extends State<Home> with TickerProviderStateMixin{
+class _HomeState extends State<Home> with TickerProviderStateMixin {
   int _mainIndex = 0;
-  int _page = 1;
 
   final List<AppBar> _appBars = <AppBar>[
     Widgets.appBar(Constants.titleNew),
     Widgets.appBar(Constants.titlePopular),
   ];
 
-  Future<void> _pullRefresh() async {
-    setState(() { _page = 1; });
-  }
-
-  void _onImageTap(Photo photo) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return Scaffold(
-        appBar: Widgets.appBarBack(),
-        body: Widgets.details(photo),
-      );
-    }));
-  }
-
   void _onBottomItemTap(int index) {
     setState(() {
       _mainIndex = index;
-      _page++;
     });
   }
 
 
   @override
   Widget build(BuildContext context) {
+
     List<Widget> _homeFragments = <Widget>[
-      RefreshIndicator(
-        child: FutureBuilder(
-          future: Widgets.grid(
-              Constants.apiRequestNew + _page.toString(), _onImageTap),
-          initialData: Widgets.loading(this),
-          builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-            return snapshot.data;
-          }
-        ),
-        onRefresh: _pullRefresh),
-      RefreshIndicator(
-        child: FutureBuilder(
-            future: Widgets.grid(
-                Constants.apiRequestNew + _page.toString(), _onImageTap),
-            initialData: Widgets.loading(this),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return snapshot.data;
-        }
-      ),
-      onRefresh: _pullRefresh),
+      // TODO: Фильтры игнорируются
+      const PhotoGrid(isNew: true),
+      const PhotoGrid(isPopular: true),
+      Widgets.plug()
     ];
 
     return Scaffold(
