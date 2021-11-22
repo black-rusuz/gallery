@@ -10,65 +10,47 @@ import 'image.dart';
 /// user : null
 
 class Photo {
+  final int id;
+  final String name;
+  final String dateCreate;
+  final String description;
+  final bool isNew;
+  final bool isPopular;
+  final Image image;
+  final dynamic user;
+
   Photo({
-      int? id,
-      String? name, 
-      String? dateCreate, 
-      String? description, 
-      bool? isNew,
-      bool? isPopular,
-      Image? image,
-      dynamic user,}){
-    _id = id;
-    _name = name;
-    _dateCreate = dateCreate;
-    _description = description;
-    _isNew = isNew;
-    _isPopular = isPopular;
-    _image = image;
-    _user = user;
-}
+    required this.id,
+    required this.name,
+    required this.dateCreate,
+    required this.description,
+    required this.isNew,
+    required this.isPopular,
+    required this.image,
+    required this.user
+  });
 
-  Photo.fromJson(dynamic json) {
-    _id = json['id'];
-    _name = json['name'];
-    _dateCreate = json['dateCreate'];
-    _description = json['description'];
-    _isNew = json['new'];
-    _isPopular = json['popular'];
-    _image = json['image'] != null ? Image.fromJson(json['image']) : null;
-    _user = json['user'];
-  }
-  int? _id;
-  String? _name;
-  String? _dateCreate;
-  String? _description;
-  bool? _isNew;
-  bool? _isPopular;
-  Image? _image;
-  dynamic _user;
-
-  int? get id => _id;
-  String? get name => _name;
-  String? get dateCreate => _dateCreate;
-  String? get description => _description;
-  bool? get isNew => _isNew;
-  bool? get isPopular => _isPopular;
-  Image? get image => _image;
-  dynamic get user => _user;
+  factory Photo.fromJson(dynamic json) => Photo(
+    id: json['id'],
+    name: json['name'],
+    dateCreate: json['dateCreate'],
+    description: json['description'],
+    isNew: json['new'],
+    isPopular: json['popular'],
+    image: Image.fromJson(json['image']),
+    user: json['user'],
+  );
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
-    map['id'] = _id;
-    map['name'] = _name;
-    map['dateCreate'] = _dateCreate;
-    map['description'] = _description;
-    map['new'] = _isNew;
-    map['popular'] = _isPopular;
-    if (_image != null) {
-      map['image'] = _image?.toJson();
-    }
-    map['user'] = _user;
+    map['id'] = id;
+    map['name'] = name;
+    map['dateCreate'] = dateCreate;
+    map['description'] = description;
+    map['new'] = isNew;
+    map['popular'] = isPopular;
+    map['image'] = image.toJson();
+    map['user'] = user;
     return map;
   }
 

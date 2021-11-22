@@ -1,25 +1,31 @@
 part of 'photo_bloc.dart';
 
-enum PhotoStatus { initial, success, failure }
+abstract class PhotoState {
 
-class PhotoState {
-  const PhotoState({
-    this.status = PhotoStatus.initial,
-    this.photos = const <Photo>[],
+}
+
+class PhotoError extends PhotoState {
+  String message = "";
+}
+
+class PhotoInitial extends PhotoState {}
+
+class PhotoEmptyList extends PhotoState {}
+
+class PhotoSuccess extends PhotoState {
+  PhotoSuccess({
+    required this.photos,
     this.hasReachedMax = false,
   });
 
-  final PhotoStatus status;
   final List<Photo> photos;
   final bool hasReachedMax;
 
-  PhotoState copyWith({
-    PhotoStatus? status,
+  PhotoSuccess copyWith({
     List<Photo>? photos,
     bool? hasReachedMax,
   }) {
-    return PhotoState(
-      status: status ?? this.status,
+    return PhotoSuccess(
       photos: photos ?? this.photos,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
@@ -27,8 +33,8 @@ class PhotoState {
 
   @override
   String toString() {
-    return 'PhotoState { status: $status, hasReachedMax: $hasReachedMax, photos: ${photos.length} }';
+    return 'PhotoState { hasReachedMax: $hasReachedMax, photos: ${photos.length} }';
   }
 
-  List<Object> get props => [status, photos, hasReachedMax];
+  List<Object> get props => [photos, hasReachedMax];
 }

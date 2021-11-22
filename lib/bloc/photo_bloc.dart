@@ -9,64 +9,58 @@ import 'package:pictures/dto/photo.dart';
 import 'package:pictures/constants.dart';
 
 part 'photo_event.dart';
-part 'photo_state.dart';
 
-EventTransformer<E> throttleDroppable<E>(Duration duration) {
-  return (events, mapper) {
-    return droppable<E>().call(events.throttle(duration), mapper);
-  };
-}
+part 'photo_state.dart';
 
 class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   final http.Client httpClient;
   final bool isNew;
   final bool isPopular;
 
-  PhotoBloc({
-    required this.httpClient,
-    this.isNew = false,
-    this.isPopular = false}) : super(const PhotoState()) {
-      on<PhotoFetched>(
-          _onPhotoFetched,
-          transformer: throttleDroppable(const Duration(milliseconds: 1500))
-      );
-    }
+  int _page = 1;
+  int _pageCount = 1;
+  List<Photo> _photos = [];
 
-  Future<void> _onPhotoFetched(PhotoFetched event, Emitter<PhotoState> emit) async {
-    if (state.hasReachedMax) return;
-    try {
-      if (state.status == PhotoStatus.initial) {
-        final photos = await _fetchPhotos();
-        return emit(state.copyWith(
-          status: PhotoStatus.success,
-          photos: photos,
-          hasReachedMax: false,
-        ));
+  PhotoBloc(
+      {required this.httpClient, this.isNew = false, this.isPopular = false})
+      : super(PhotoInitial()) {
+    on<PhotoFetched>(_onPhotoFetched);
+  }
+
+  Future<void> _onPhotoFetched(
+    PhotoFetched event, Emitter<PhotoState> emit) async {
+    if (_page <= _pageCount) {
+      try {
+        final List<Photo> photos = await _fetchPhotos(_page);
+        _photos.addAll(photos);
+        if (photos.isEmpty) {
+          emit(PhotoEmptyList());
+        } else {
+          _page++;
+          emit(PhotoSuccess(photos: _photos));
+        }
+      } catch (_) {
+        emit(PhotoError());
       }
-      final photos = await _fetchPhotos(state.photos.length);
-      emit(photos.isEmpty
-          ? state.copyWith(hasReachedMax: true)
-          : state.copyWith(
-        status: PhotoStatus.success,
-        photos: List.of(state.photos)..addAll(photos),
-        hasReachedMax: false,
-      ));
-    } catch (_) {
-      emit(state.copyWith(status: PhotoStatus.failure));
     }
   }
 
-  Future<List<Photo>> _fetchPhotos([int startIndex = 1]) async {
+  Future<List<Photo>> _fetchPhotos(int startPage) async {
     String requestUrl = Constants.apiRequest + '?';
-    if (isNew) { requestUrl += 'new=' + isNew.toString() + '&'; }
-    if (isPopular) { requestUrl += 'popular=' + isPopular.toString() + '&'; }
-    requestUrl += 'page=' + startIndex.toString() + '&' + 'limit=14&';
+    if (isNew) {
+      requestUrl += 'new=' + isNew.toString() + '&'; }
+    if (isPopular) {
+      requestUrl += 'popular=' + isPopular.toString() + '&'; }
+    requestUrl += 'page=' + startPage.toString() + '&' + 'limit=14&';
 
-    final http.Response response = await http.get(Uri.parse(requestUrl.toLowerCase()));
+    final http.Response response =
+        await http.get(Uri.parse(requestUrl.toLowerCase()));
     if (response.statusCode == 200) {
+      _pageCount = jsonDecode(response.body)['countOfPages'];
       Iterable i = jsonDecode(response.body)['data'];
       return List<Photo>.from(i.map((model) => Photo.fromJson(model)));
+    } else {
+      throw Exception('Error fetching posts');
     }
-    throw Exception('Error fetching posts');
   }
 }

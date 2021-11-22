@@ -103,9 +103,9 @@ class Widgets {
   }
 
   static ListView details(Photo photo) {
-    String url = Constants.apiImageUrl + photo.image!.name!;
-    String name = photo.name!;
-    String description = photo.description!;
+    String url = Constants.apiImageUrl + photo.image.name;
+    String name = photo.name;
+    String description = photo.description;
 
     return ListView(
       children: <Widget> [

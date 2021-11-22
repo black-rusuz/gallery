@@ -7,12 +7,7 @@ import 'package:pictures/widgets/photo_grid_item.dart';
 import 'package:pictures/widgets/widgets.dart';
 
 class PhotoGrid extends StatefulWidget {
-  final bool isNew;
-  final bool isPopular;
-
-  const PhotoGrid({Key? key,
-    this.isNew = false,
-    this.isPopular = false}) : super(key: key);
+  PhotoGrid({Key? key}) : super(key: key);
 
   @override
   _PhotoGridState createState() => _PhotoGridState();
@@ -30,49 +25,38 @@ class _PhotoGridState extends State<PhotoGrid> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      child: BlocProvider(
-        create: (_) => PhotoBloc(
-            httpClient: http.Client(),
-            isNew: widget.isNew,
-            isPopular: widget.isPopular)..add(PhotoFetched()),
-        child: BlocBuilder<PhotoBloc, PhotoState>(
-          builder: (context, state) {
-            switch (state.status) {
-              case PhotoStatus.failure:
-                return Widgets.plug();
-              case PhotoStatus.success:
-                if (state.photos.isEmpty) {
-                  return Widgets.plug();
-                }
-                return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 16.0),
-                    child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 160 / 100,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                      ),
-                      // TODO: Сделать индикатор по центру?
-                      itemBuilder: (BuildContext context, int index) {
-                        return index >= state.photos.length
-                            ? const Center(child: CircularProgressIndicator())
-                            : PhotoGridItem(photo: state.photos[index]);
-                      },
-                      itemCount: state.hasReachedMax
-                          ? state.photos.length
-                          : state.photos.length + 1,
-                    )
-                );
-              default:
-                return const Center(
-                    heightFactor: 1.0,
-                    child: CircularProgressIndicator()
-                );
-            }
-          },
-        ),
+      child: BlocBuilder<PhotoBloc, PhotoState>(
+        builder: (context, state) {
+          if (state is PhotoEmptyList || state is PhotoError) {
+            return Widgets.plug();
+          }
+          if (state is PhotoSuccess) {
+            return Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 16.0),
+                child: GridView.builder(
+                  controller: _scrollController,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 160 / 100,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                  ),
+                  // TODO: Сделать индикатор по центру?
+                  itemBuilder: (BuildContext context, int index) {
+                    return index >= state.photos.length
+                      ? const Center(child: CircularProgressIndicator())
+                      : PhotoGridItem(photo: state.photos[index]);
+                  },
+                  itemCount: state.hasReachedMax
+                      ? state.photos.length
+                      : state.photos.length + 1,
+                )
+            );
+          }
+          return const SizedBox();
+          return Widgets.plug();
+        },
       ),
       // TODO: Прописать pullRequest() (но где?)
       onRefresh: () async { print('hey'); }
@@ -88,8 +72,6 @@ class _PhotoGridState extends State<PhotoGrid> {
   }
 
   void _onScroll() {
-    // TODO: Починить, скроллКонтроллер вообще не работает
-    print('aaaa');
     if (_isBottom) context.read<PhotoBloc>().add(PhotoFetched());
   }
 

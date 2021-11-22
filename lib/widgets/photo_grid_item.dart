@@ -11,7 +11,7 @@ class PhotoGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String url = Constants.apiImageUrl + photo.image!.name!;
+    String url = Constants.apiImageUrl + photo.image.name;
 
     return InkWell(
       onTap: () => _onTap(context, photo),
