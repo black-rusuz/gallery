@@ -6,11 +6,15 @@ abstract class PhotoState {
 
 class PhotoError extends PhotoState {
   String message = "";
+  PhotoError([this.message = '']);
+
+  @override
+  String toString() {
+    return 'PhotoState { error: $message }';
+  }
 }
 
 class PhotoInitial extends PhotoState {}
-
-class PhotoEmptyList extends PhotoState {}
 
 class PhotoSuccess extends PhotoState {
   PhotoSuccess({

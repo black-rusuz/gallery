@@ -11,23 +11,21 @@ import 'image.dart';
 
 class Photo {
   final int id;
-  final String name;
-  final String dateCreate;
-  final String description;
-  final bool isNew;
-  final bool isPopular;
   final Image image;
-  final dynamic user;
+  final bool? isNew;
+  final bool? isPopular;
+  final String? name;
+  final String? dateCreate;
+  final String? description;
 
   Photo({
     required this.id,
-    required this.name,
-    required this.dateCreate,
-    required this.description,
-    required this.isNew,
-    required this.isPopular,
     required this.image,
-    required this.user
+    this.isNew,
+    this.isPopular,
+    this.name,
+    this.dateCreate,
+    this.description,
   });
 
   factory Photo.fromJson(dynamic json) => Photo(
@@ -37,8 +35,7 @@ class Photo {
     description: json['description'],
     isNew: json['new'],
     isPopular: json['popular'],
-    image: Image.fromJson(json['image']),
-    user: json['user'],
+    image: Image.fromJson(json['image'])
   );
 
   Map<String, dynamic> toJson() {
@@ -50,7 +47,6 @@ class Photo {
     map['new'] = isNew;
     map['popular'] = isPopular;
     map['image'] = image.toJson();
-    map['user'] = user;
     return map;
   }
 

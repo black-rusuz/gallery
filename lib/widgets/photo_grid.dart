@@ -27,7 +27,7 @@ class _PhotoGridState extends State<PhotoGrid> {
     return RefreshIndicator(
       child: BlocBuilder<PhotoBloc, PhotoState>(
         builder: (context, state) {
-          if (state is PhotoEmptyList || state is PhotoError) {
+          if (state is PhotoError) {
             return Widgets.plug();
           }
           if (state is PhotoSuccess) {
@@ -65,9 +65,7 @@ class _PhotoGridState extends State<PhotoGrid> {
 
   @override
   void dispose() {
-    _scrollController
-      ..removeListener(_onScroll)
-      ..dispose();
+    _scrollController..removeListener(_onScroll)..dispose();
     super.dispose();
   }
 
@@ -79,6 +77,8 @@ class _PhotoGridState extends State<PhotoGrid> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+    return currentScroll >= maxScroll;
+    //return currentScroll >= (maxScroll * 0.9);
+    // TODO: Заюзать трансформ
   }
 }

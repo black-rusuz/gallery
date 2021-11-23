@@ -54,13 +54,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     List<Widget> _homeFragments = <Widget>[
       // TODO: Фильтры игнорируются
       BlocProvider(
-          create: (context) => PhotoBloc(
+          create: (_) => PhotoBloc(
             httpClient: http.Client(),
             isNew: true,
           )..add(PhotoFetched()),
           child: PhotoGrid()),
       BlocProvider(
-          create: (context) => PhotoBloc(
+          create: (_) => PhotoBloc(
                 httpClient: http.Client(),
                 isPopular: true,
               )..add(PhotoFetched()),

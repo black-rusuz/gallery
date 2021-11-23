@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 
-import 'package:stream_transform/stream_transform.dart';
 import 'package:bloc/bloc.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:http/http.dart' as http;
 import 'package:pictures/dto/photo.dart';
 import 'package:pictures/constants.dart';
@@ -19,28 +17,26 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
 
   int _page = 1;
   int _pageCount = 1;
-  List<Photo> _photos = [];
+  final List<Photo> _photos = [];
 
-  PhotoBloc(
-      {required this.httpClient, this.isNew = false, this.isPopular = false})
+  PhotoBloc({required this.httpClient, this.isNew = false, this.isPopular = false})
       : super(PhotoInitial()) {
     on<PhotoFetched>(_onPhotoFetched);
   }
 
-  Future<void> _onPhotoFetched(
-    PhotoFetched event, Emitter<PhotoState> emit) async {
+  Future<void> _onPhotoFetched(PhotoFetched event, Emitter<PhotoState> emit) async {
     if (_page <= _pageCount) {
       try {
         final List<Photo> photos = await _fetchPhotos(_page);
         _photos.addAll(photos);
-        if (photos.isEmpty) {
-          emit(PhotoEmptyList());
+        _page++;
+        if (photos.isEmpty || photos.length < 14) {
+          emit(PhotoSuccess(photos: _photos, hasReachedMax: true));
         } else {
-          _page++;
           emit(PhotoSuccess(photos: _photos));
         }
-      } catch (_) {
-        emit(PhotoError());
+      } catch (e) {
+        emit(PhotoError(e.toString()));
       }
     }
   }
