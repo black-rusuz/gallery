@@ -29,14 +29,13 @@ class Photo {
   });
 
   factory Photo.fromJson(dynamic json) => Photo(
-    id: json['id'],
-    name: json['name'],
-    dateCreate: json['dateCreate'],
-    description: json['description'],
-    isNew: json['new'],
-    isPopular: json['popular'],
-    image: Image.fromJson(json['image'])
-  );
+      id: json['id'],
+      name: json['name'],
+      dateCreate: json['dateCreate'],
+      description: json['description'],
+      isNew: json['new'],
+      isPopular: json['popular'],
+      image: Image.fromJson(json['image']));
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -49,5 +48,4 @@ class Photo {
     map['image'] = image.toJson();
     return map;
   }
-
 }

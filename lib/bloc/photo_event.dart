@@ -5,3 +5,4 @@ abstract class PhotoEvent {
 }
 
 class PhotoFetched extends PhotoEvent {}
+class PhotoRefreshed extends PhotoEvent {}

@@ -5,11 +5,9 @@ import 'bloc/photo_bloc.dart';
 import 'widgets/photo_grid.dart';
 import 'widgets/widgets.dart';
 import 'constants.dart';
-import 'simple_bloc_observer.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  Bloc.observer = SimpleBlocObserver(); // TODO: Убрать
   runApp(const MyApp());
 }
 
@@ -35,7 +33,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home> {
   int _mainIndex = 0;
 
   final List<AppBar> _appBars = <AppBar>[
@@ -51,20 +49,23 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _homeFragments = <Widget>[
-      // TODO: Фильтры игнорируются
+    final List<Widget> _homeFragments = <Widget>[
       BlocProvider(
-          create: (_) => PhotoBloc(
-            httpClient: http.Client(),
-            isNew: true,
-          )..add(PhotoFetched()),
-          child: PhotoGrid()),
+        key: UniqueKey(),
+        create: (context) => PhotoBloc(
+          httpClient: http.Client(),
+          isNew: true,
+        )..add(PhotoFetched()),
+        child: const PhotoGrid(),
+      ),
       BlocProvider(
-          create: (_) => PhotoBloc(
-                httpClient: http.Client(),
-                isPopular: true,
-              )..add(PhotoFetched()),
-          child: PhotoGrid())
+        key: UniqueKey(),
+        create: (context) => PhotoBloc(
+          httpClient: http.Client(),
+          isPopular: true,
+        )..add(PhotoFetched()),
+        child: const PhotoGrid(),
+      ),
     ];
 
     return Scaffold(

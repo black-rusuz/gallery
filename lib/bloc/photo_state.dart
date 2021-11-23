@@ -1,8 +1,8 @@
 part of 'photo_bloc.dart';
 
-abstract class PhotoState {
+abstract class PhotoState {}
 
-}
+class PhotoInitial extends PhotoState {}
 
 class PhotoError extends PhotoState {
   String message = "";
@@ -13,8 +13,6 @@ class PhotoError extends PhotoState {
     return 'PhotoState { error: $message }';
   }
 }
-
-class PhotoInitial extends PhotoState {}
 
 class PhotoSuccess extends PhotoState {
   PhotoSuccess({

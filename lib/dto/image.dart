@@ -5,15 +5,10 @@ class Image {
   final int id;
   final String name;
 
-  Image({
-    required this.id,
-    required this.name
-  });
+  Image({required this.id, required this.name});
 
-  factory Image.fromJson(dynamic json) => Image(
-    id: json['id'],
-    name: json['name']
-  );
+  factory Image.fromJson(dynamic json) =>
+      Image(id: json['id'], name: json['name']);
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -21,5 +16,4 @@ class Image {
     map['name'] = name;
     return map;
   }
-
 }
