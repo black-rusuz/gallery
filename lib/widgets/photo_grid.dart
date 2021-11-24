@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:pictures/bloc/photo_bloc.dart';
-import 'package:pictures/constants.dart';
 import 'package:pictures/widgets/photo_grid_item.dart';
 
 import 'plug.dart';
@@ -43,12 +42,7 @@ class _PhotoGridState extends State<PhotoGrid> {
             slivers: [
               CupertinoSliverRefreshControl(
                 onRefresh: () async {
-                  await Future.delayed(const Duration(seconds: 3));
-                },
-                refreshTriggerPullDistance: 100,
-                refreshIndicatorExtent: 60,
-                builder: (context, mode, _, __, ___) {
-                  return const CupertinoActivityIndicator();
+                  context.read<PhotoBloc>().add(PhotoRefreshed());
                 },
               ),
               SliverPadding(
@@ -73,35 +67,13 @@ class _PhotoGridState extends State<PhotoGrid> {
                 const SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.all(20),
-                    child:
-                        Center(child: CupertinoActivityIndicator(radius: 15)),
+                    child: CupertinoActivityIndicator(),
                   ),
                 ),
             ],
           );
-          return GridView.builder(
-            controller: _scrollController,
-            padding:
-                const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 160 / 100,
-              crossAxisSpacing: 10.0,
-              mainAxisSpacing: 10.0,
-            ),
-            // TODO: Сделать индикатор по центру?
-            itemBuilder: (BuildContext context, int index) {
-              return index >= state.photos.length
-                  ? const Center(child: CircularProgressIndicator())
-                  : PhotoGridItem(photo: state.photos[index]);
-            },
-            itemCount: state.hasReachedMax
-                ? state.photos.length
-                : state.photos.length + 1,
-          );
         }
         return const SizedBox();
-        // return Widgets.plug();
       },
     );
   }

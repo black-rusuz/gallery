@@ -6,11 +6,12 @@ class PhotoInitial extends PhotoState {}
 
 class PhotoError extends PhotoState {
   String message = "";
+
   PhotoError([this.message = '']);
 
   @override
   String toString() {
-    return 'PhotoState { error: $message }';
+    return 'PhotoError { message: $message }';
   }
 }
 
@@ -35,7 +36,7 @@ class PhotoSuccess extends PhotoState {
 
   @override
   String toString() {
-    return 'PhotoState { hasReachedMax: $hasReachedMax, photos: ${photos.length} }';
+    return 'PhotoSuccess { hasReachedMax: $hasReachedMax, photos: ${photos.length} }';
   }
 
   List<Object> get props => [photos, hasReachedMax];
