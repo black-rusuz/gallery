@@ -15,7 +15,7 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
   final bool isNew;
   final bool isPopular;
 
-  int _page = 1;
+  int _page = 0;
   int _pageCount = 1;
   final List<Photo> _photos = [];
   final int _limit = 14;
@@ -37,12 +37,13 @@ class PhotoBloc extends Bloc<PhotoEvent, PhotoState> {
 
   Future<void> _onPhotoFetched(
       PhotoFetched event, Emitter<PhotoState> emit) async {
+    // TODO: Получать странцу нормально
     if (_page <= 3) {
       try {
+        _page++;
         final List<Photo> photos = await RequestApi(limit: _limit)
             .getPhotos(isNew: isNew, isPopular: isPopular, page: _page);
         _photos.addAll(photos);
-        _page++;
         if (photos.isEmpty || photos.length < _limit) {
           emit(PhotoSuccess(photos: _photos, hasReachedMax: true));
         } else {

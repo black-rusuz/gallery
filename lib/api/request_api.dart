@@ -12,6 +12,7 @@ class RequestApi implements RequestInterface {
   @override
   Future<List<Photo>> getPhotos(
       {bool isNew = false, bool isPopular = false, int page = 1}) async {
+    print(page);
     Dio dio = Dio();
     Map<String, dynamic> parameters = {'page': page, 'limit': limit};
     if (isNew) parameters.addAll({'new': isNew});
