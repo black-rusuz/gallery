@@ -29,23 +29,22 @@ class Photo {
   });
 
   factory Photo.fromJson(dynamic json) => Photo(
-      id: json['id'],
-      name: json['name'],
-      dateCreate: json['dateCreate'],
-      description: json['description'],
-      isNew: json['new'],
-      isPopular: json['popular'],
-      image: Image.fromJson(json['image']));
+        id: json['id'],
+        name: json['name'],
+        dateCreate: json['dateCreate'],
+        description: json['description'],
+        isNew: json['new'],
+        isPopular: json['popular'],
+        image: Image.fromJson(json['image']),
+      );
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['dateCreate'] = dateCreate;
-    map['description'] = description;
-    map['new'] = isNew;
-    map['popular'] = isPopular;
-    map['image'] = image.toJson();
-    return map;
-  }
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'dateCreate': dateCreate,
+        'description': description,
+        'new': isNew,
+        'popular': isPopular,
+        'image': image.toJson(),
+      };
 }
