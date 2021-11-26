@@ -24,6 +24,8 @@ class Constants {
   static const String titleNew = 'New';
   static const String titlePopular = 'Popular';
 
+  static const String placeholderImage = 'assets/images/placeholder.png';
+
   static const String connectionErrorImage = 'assets/images/internet.svg';
   static const String connectionErrorTitle = 'Oh shucks!';
   static const String connectionErrorMessage =

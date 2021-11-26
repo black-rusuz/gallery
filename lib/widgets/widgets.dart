@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:pictures/constants.dart';
+import 'package:pictures/dto/photo_entity.dart';
 import 'package:pictures/fonts/nav_icons.dart';
-import 'package:pictures/dto/photo.dart';
 
 class Widgets {
   static AppBar appBar(String title) {
@@ -56,7 +56,7 @@ class Widgets {
     );
   }
 
-  static ListView details(Photo photo) {
+  static ListView details(PhotoEntity photo) {
     String url = Constants.apiImageUrl + photo.image.name;
     String? name = photo.name;
     String? description = photo.description;

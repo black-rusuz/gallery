@@ -1,4 +1,4 @@
-import 'Photo.dart';
+import 'photo_entity.dart';
 
 /// totalItems : 680
 /// itemsPerPage : 2
@@ -21,11 +21,18 @@ class ResponseData<T> {
     required this.data,
   });
 
-  ResponseData.fromJson(dynamic json) {
-    totalItems = json['totalItems'];
-    itemsPerPage = json['itemsPerPage'];
-    countOfPages = json['countOfPages'];
-    data = List<T>.from(json['data'].map((x) => Photo.fromJson(x)));
+  factory ResponseData.fromJson(Map<String, dynamic> json) => ResponseData<T>(
+      totalItems: json['totalItems'],
+      itemsPerPage: json['itemsPerPage'],
+      countOfPages: json['countOfPages'],
+      data: ResponseData._dataFromJson<T>(json['data'] as List),
+      );
+
+  static _dataFromJson<T>(List json) {
+    if (T == PhotoEntity) {
+      return json.map((e) => PhotoEntity.fromJson(e) as T).toList();
+    }
+    return json.map((e) => e as T).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -34,8 +41,8 @@ class ResponseData<T> {
     map['itemsPerPage'] = itemsPerPage;
     map['countOfPages'] = countOfPages;
 
-    if (T is Photo) {
-      map['data'] = List<T>.from(data.map((x) => (x as Photo).toJson()));
+    if (T is PhotoEntity) {
+      map['data'] = List<T>.from(data.map((x) => (x as PhotoEntity).toJson()));
     }
 
     return map;

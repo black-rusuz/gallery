@@ -8,7 +8,7 @@ import 'widgets/photo_grid.dart';
 import 'widgets/widgets.dart';
 
 void main() {
-  Bloc.observer = SimpleBlocObserver();       // TODO: Убрать
+  Bloc.observer = SimpleBlocObserver();
   runApp(const MyApp());
 }
 

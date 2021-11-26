@@ -36,3 +36,4 @@ flutter:
         - asset: fonts/nav_icons.ttf
   assets:
     - assets/images/internet.svg
+    - assets/images/placeholder.png

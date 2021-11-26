@@ -1,4 +1,4 @@
-import 'image.dart';
+import 'image_entity.dart';
 
 /// id : 84
 /// name : "1"
@@ -9,16 +9,16 @@ import 'image.dart';
 /// image : {"id":229,"name":"5badea780fd2c987088603.jpg"}
 /// user : null
 
-class Photo {
+class PhotoEntity {
   final int id;
-  final Image image;
+  final ImageEntity image;
   final bool? isNew;
   final bool? isPopular;
   final String? name;
   final String? dateCreate;
   final String? description;
 
-  Photo({
+  PhotoEntity({
     required this.id,
     required this.image,
     this.isNew,
@@ -28,14 +28,14 @@ class Photo {
     this.description,
   });
 
-  factory Photo.fromJson(dynamic json) => Photo(
+  factory PhotoEntity.fromJson(dynamic json) => PhotoEntity(
         id: json['id'],
         name: json['name'],
         dateCreate: json['dateCreate'],
         description: json['description'],
         isNew: json['new'],
         isPopular: json['popular'],
-        image: Image.fromJson(json['image']),
+        image: ImageEntity.fromJson(json['image']),
       );
 
   Map<String, dynamic> toJson() => {

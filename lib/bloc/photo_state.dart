@@ -21,11 +21,11 @@ class PhotoSuccess extends PhotoState {
     this.hasReachedMax = false,
   });
 
-  final List<Photo> photos;
+  final List<PhotoEntity> photos;
   final bool hasReachedMax;
 
   PhotoSuccess copyWith({
-    List<Photo>? photos,
+    List<PhotoEntity>? photos,
     bool? hasReachedMax,
   }) {
     return PhotoSuccess(
