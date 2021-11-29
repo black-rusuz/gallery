@@ -29,12 +29,15 @@ class _PhotoGridState extends State<PhotoGrid> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PhotoBloc, PhotoState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is PhotoSuccess) {
+          _refreshCompleter.complete();
+          _refreshCompleter = Completer();
+        }
+      },
       child: BlocBuilder<PhotoBloc, PhotoState>(
         builder: (context, state) {
           if (state is PhotoError) {
-            _refreshCompleter.completeError(state);
-            _refreshCompleter = Completer();
             return const Plug();
           }
           if (state is PhotoSuccess) {
@@ -47,8 +50,7 @@ class _PhotoGridState extends State<PhotoGrid> {
                   onRefresh: () async {
                     // BlocProvider.of<PhotoBloc>(context).add(PhotoRefreshed());
                     context.read<PhotoBloc>().add(PhotoRefreshed());
-                    _refreshCompleter.complete(state);
-                    _refreshCompleter = Completer();
+                    return _refreshCompleter.future;
                   },
                 ),
                 SliverPadding(
