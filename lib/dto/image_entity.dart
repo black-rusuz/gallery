@@ -1,3 +1,5 @@
+import 'package:pictures/constants.dart';
+
 /// id : 229
 /// name : "5badea780fd2c987088603.jpg"
 
@@ -14,4 +16,8 @@ class ImageEntity {
         'id': id,
         'name': name,
       };
+
+  String getUrl() {
+    return Constants.apiImageUrl + name;
+  }
 }

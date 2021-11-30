@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'bloc/photo_bloc.dart';
 import 'constants.dart';
 import 'simple_bloc_observer.dart';
-import 'bloc/photo_bloc.dart';
 import 'widgets/photo_grid.dart';
 import 'widgets/widgets.dart';
 

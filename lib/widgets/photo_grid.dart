@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:pictures/bloc/photo_bloc.dart';
 import 'package:pictures/widgets/photo_grid_item.dart';
 
@@ -30,7 +29,7 @@ class _PhotoGridState extends State<PhotoGrid> {
   Widget build(BuildContext context) {
     return BlocListener<PhotoBloc, PhotoState>(
       listener: (context, state) {
-        if (state is PhotoSuccess) {
+        if (state is PhotoSuccess || state is PhotoError) {
           _refreshCompleter.complete();
           _refreshCompleter = Completer();
         }
@@ -38,7 +37,7 @@ class _PhotoGridState extends State<PhotoGrid> {
       child: BlocBuilder<PhotoBloc, PhotoState>(
         builder: (context, state) {
           if (state is PhotoError) {
-            return const Plug();
+            return Plug();
           }
           if (state is PhotoSuccess) {
             return CustomScrollView(
@@ -48,7 +47,6 @@ class _PhotoGridState extends State<PhotoGrid> {
               slivers: [
                 CupertinoSliverRefreshControl(
                   onRefresh: () async {
-                    // BlocProvider.of<PhotoBloc>(context).add(PhotoRefreshed());
                     context.read<PhotoBloc>().add(PhotoRefreshed());
                     return _refreshCompleter.future;
                   },

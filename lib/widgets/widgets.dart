@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:pictures/constants.dart';
-import 'package:pictures/dto/photo_entity.dart';
 import 'package:pictures/fonts/nav_icons.dart';
 
 class Widgets {
@@ -51,46 +49,6 @@ class Widgets {
             child: Icon(NavIcons.navPopular),
           ),
         ),
-      ],
-    );
-  }
-
-  static ListView details(PhotoEntity photo) {
-    String url = Constants.apiImageUrl + photo.image.name;
-    String? name = photo.name;
-    String? description = photo.description;
-
-    return ListView(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(bottom: 20.0),
-          child: Image.network(url),
-        ),
-        if (name != null)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 15.0),
-            child: Text(
-              name,
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                color: Constants.colorTitle,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        if (description != null)
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 0, 16.0, 15.0),
-            child: Text(
-              description,
-              style: const TextStyle(
-                color: Constants.colorText,
-                fontSize: 12.0,
-                height: 2.0,
-              ),
-            ),
-          ),
       ],
     );
   }

@@ -1,37 +1,31 @@
 import 'package:flutter/material.dart';
-
 import 'package:pictures/constants.dart';
 import 'package:pictures/dto/photo_entity.dart';
-import 'widgets.dart';
+import 'package:pictures/widgets/photo_details.dart';
 
 class PhotoGridItem extends StatelessWidget {
-  const PhotoGridItem({Key? key, required this.photo}) : super(key: key);
-
   final PhotoEntity photo;
+
+  const PhotoGridItem({Key? key, required this.photo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    String url = Constants.apiImageUrl + photo.image.name;
-
     return InkWell(
-      onTap: () => _onTap(context, photo),
+      onTap: () => _onTap(context),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
         child: FadeInImage(
           fit: BoxFit.cover,
-          image: NetworkImage(url),
+          image: NetworkImage(photo.image.getUrl()),
           placeholder: const AssetImage(Constants.placeholderImage),
         ),
       ),
     );
   }
 
-  void _onTap(BuildContext context, PhotoEntity photo) {
+  void _onTap(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return Scaffold(
-        appBar: Widgets.appBarBack(),
-        body: Widgets.details(photo),
-      );
+      return PhotoDetails(photo: photo);
     }));
   }
 }

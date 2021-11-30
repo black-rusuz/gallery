@@ -8,10 +8,10 @@ import 'request_interface.dart';
 class RequestApi implements RequestInterface {
   @override
   Future<ResponseData<PhotoEntity>> getPhotos({
-    bool isNew = false,
-    bool isPopular = false,
-    int page = 1,
-    int limit = 14,
+    required bool isNew,
+    required bool isPopular,
+    required int page,
+    required int limit,
   }) async {
     Dio dio = Dio();
     Map<String, dynamic> parameters = {'page': page, 'limit': limit};
