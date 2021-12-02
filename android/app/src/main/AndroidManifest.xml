@@ -1,7 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.webant.pictures">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.webant.Gallery">
     <uses-permission android:name="android.permission.INTERNET"/> <!-- Add this -->
     <application
-        android:label="Pictures"
+        android:label="Gallery"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
