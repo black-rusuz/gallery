@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:pictures/constants.dart';
-import 'package:pictures/dto/photo_entity.dart';
-import 'package:pictures/dto/response_data.dart';
+import 'package:gallery/constants.dart';
+import 'package:gallery/dto/photo_entity.dart';
+import 'package:gallery/dto/response_data.dart';
 
 import 'request_interface.dart';
 

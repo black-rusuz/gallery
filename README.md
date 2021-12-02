@@ -1,3 +1,3 @@
-# pictures
+# Gallery
 
 Test task for WebAnt

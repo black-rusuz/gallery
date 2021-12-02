@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pictures/constants.dart';
-import 'package:pictures/fonts/nav_icons.dart';
+import 'package:gallery/constants.dart';
+import 'package:gallery/fonts/nav_icons.dart';
 
 class Widgets {
   static AppBar appBar(String title) {

@@ -1,4 +1,4 @@
-package ru.webant.pictures
+package ru.webant.Gallery
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,4 +1,4 @@
-import 'package:pictures/constants.dart';
+import 'package:gallery/constants.dart';
 
 /// id : 229
 /// name : "5badea780fd2c987088603.jpg"

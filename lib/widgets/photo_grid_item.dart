@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pictures/constants.dart';
-import 'package:pictures/dto/photo_entity.dart';
-import 'package:pictures/widgets/photo_details.dart';
+import 'package:gallery/constants.dart';
+import 'package:gallery/dto/photo_entity.dart';
+import 'package:gallery/widgets/photo_details.dart';
 
 class PhotoGridItem extends StatelessWidget {
   final PhotoEntity photo;

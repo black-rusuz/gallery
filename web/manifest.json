@@ -1,6 +1,6 @@
 {
-    "name": "pictures",
-    "short_name": "pictures",
+    "name": "Gallery",
+    "short_name": "Gallery",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

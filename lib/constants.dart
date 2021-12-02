@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class Constants {
-  static const String appName = 'Pictures';
+  static const String appName = 'Gallery';
 
   static const MaterialColor colorAccent = MaterialColor(0xFFED5992, {
     50: Color(0xfffbe3ec),

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pictures/bloc/photo_bloc.dart';
-import 'package:pictures/constants.dart';
+import 'package:gallery/bloc/photo_bloc.dart';
+import 'package:gallery/constants.dart';
 import 'package:provider/src/provider.dart';
 
 class Plug extends StatelessWidget {

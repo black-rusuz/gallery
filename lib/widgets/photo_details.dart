@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:pictures/constants.dart';
-import 'package:pictures/dto/photo_entity.dart';
-import 'package:pictures/widgets/widgets.dart';
+import 'package:gallery/constants.dart';
+import 'package:gallery/dto/photo_entity.dart';
+import 'package:gallery/widgets/widgets.dart';
 
 class PhotoDetails extends StatelessWidget {
   final PhotoEntity photo;
