@@ -12,7 +12,7 @@ class WebantService {
       queryParameters: getPhotosBody.toApi(),
     );
     if (response.statusCode == 200) {
-      return BaseApi.fromApi(response.data);
+      return BaseApi.fromJson(response.data);
     } else {
       throw Exception('Error getting photos');
     }

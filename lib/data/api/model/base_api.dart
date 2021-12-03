@@ -11,7 +11,7 @@ class BaseApi<T> {
     required this.data,
   });
 
-  factory BaseApi.fromApi(dynamic json) => BaseApi<T>(
+  factory BaseApi.fromJson(dynamic json) => BaseApi<T>(
         totalItems: json['totalItems'],
         itemsPerPage: json['itemsPerPage'],
         countOfPages: json['countOfPages'],
