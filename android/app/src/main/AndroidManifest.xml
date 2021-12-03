@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.webant.Gallery">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="ru.webant.gallery">
     <uses-permission android:name="android.permission.INTERNET"/> <!-- Add this -->
     <application
         android:label="Gallery"
