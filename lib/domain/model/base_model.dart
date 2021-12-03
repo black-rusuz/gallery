@@ -8,6 +8,6 @@ class BaseModel<T> {
     required this.totalItems,
     required this.itemsPerPage,
     required this.countOfPages,
-    required this.data
+    required this.data,
   });
 }
