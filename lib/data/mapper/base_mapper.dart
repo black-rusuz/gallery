@@ -16,17 +16,8 @@ class BaseMapper<T> {
   }
 
   static List<T> _castData<T>(List<Map<String, dynamic>> list) {
-    if (T is ClientApi) {
-      return list.map((e) => ClientApi.fromJson(e) as T).toList();
-    }
-    else if (T is MediaApi) {
-      return list.map((e) => MediaApi.fromJson(e) as T).toList();
-    }
-    else if (T is PhotoApi) {
+    if (T is PhotoApi) {
       return list.map((e) => PhotoApi.fromJson(e) as T).toList();
-    }
-    else if (T is UserApi) {
-      return list.map((e) => UserApi.fromJson(e) as T).toList();
     }
     else {
       return list.map((e) => e as T).toList();
