@@ -33,5 +33,5 @@ class Constants {
       'Slow or no internet connection.\n'
       'Please check your internet settings';
 
-  static const String apiBaseUrl = 'http://gallery.dev.webant.ru/';
+  static const String apiBaseUrl = 'http://gallery.dev.webant.ru';
 }
